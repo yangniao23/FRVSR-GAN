@@ -147,7 +147,8 @@ if __name__ == "__main__":
                 # plt.imshow(truth[0].permute(1,2,0).numpy())
                 # plt.show()
                 # exit(0)
-                image.to(device)
+                image = image.to(device)
+                truth = truth.to(device)
 
                 if verbose:
                     print(f'image shape is {image.shape}')
@@ -184,13 +185,15 @@ if __name__ == "__main__":
                 print(l1)
                 print(l2)
 
+                lr_out = lr_out.to('cpu')
+
                 #plt.imshow(hr_out[0].permute(1, 2, 0).detach().numpy())
                 #plt.imshow(truth[0].permute(1,2,0).clone().numpy())
                 plt.imshow(lr_out[0].permute(1, 2, 0).detach().numpy())
                 #plt.show()
 
                 def output(out, writer):
-                    out = out.clone()
+                    out = out.clone().cpu()
                     out_img = out.data[0].numpy()
                     out_img *= 255.0
                     out_img = (np.uint8(out_img)).transpose((1, 2, 0))

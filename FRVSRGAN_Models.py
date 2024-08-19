@@ -103,6 +103,7 @@ class FNet(nn.Module):
         out = func.leaky_relu(out, 0.2)
         out = self.conv2(out)
         self.out = torch.tanh(out)
+        self.out.requires_grad = True  # 勾配保持を許可
         self.out.retain_grad()
         return self.out
 
@@ -174,6 +175,7 @@ class FRVSR(nn.Module):
         estImg = self.srnet(srInput)
         self.lastLrImg = input
         self.EstHrImg = estImg
+        self.EstHrImg.requires_grad = True  # 勾配保持を許可
         self.EstHrImg.retain_grad()
         return self.EstHrImg, self.EstLrImg
 
